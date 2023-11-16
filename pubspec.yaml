@@ -13,12 +13,15 @@ dependencies:
 
   cupertino_icons: ^1.0.2
   mvc_pattern: ^8.12.0
-  provider: ^6.0.5
   persistent_bottom_nav_bar_v2: ^4.2.8
-  page_transition: ^2.0.4
   flutter_dotenv: ^5.0.2
   shared_preferences: ^2.2.2
   font_awesome_flutter: ^10.4.0
+  timeline_tile: ^2.0.0
+  percent_indicator: ^4.2.3
+  ably_flutter: ^1.2.23
+  cached_network_image: ^3.2.1
+
 
 dev_dependencies:
   flutter_test:

@@ -31,15 +31,6 @@ Future<void> main() async {
   runApp(
     const MyApp(),
   );
-
-  // runApp(
-  //   MultiProvider(
-  //     providers: [
-  //       ChangeNotifierProvider<Layout>(create: (_) => Layout()),
-  //     ],
-  //     child: const App(),
-  //   ),
-  // );
 }
 
 class MyApp extends StatelessWidget {

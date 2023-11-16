@@ -6,6 +6,8 @@ class OrdersController extends ControllerMVC {
 
   bool processing = true;
   OverlayEntry? loader;
+  double percent = 0.2;
+  String orderText = 'Your order has been placed';
 
   OrdersController();
 }

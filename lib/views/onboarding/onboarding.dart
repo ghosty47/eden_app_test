@@ -1,4 +1,5 @@
 import 'package:eden_app_test/controllers/auth_controller.dart';
+import 'package:eden_app_test/utils/app_colors.dart';
 import 'package:eden_app_test/utils/base.dart';
 import 'package:eden_app_test/views/orders/orders.dart';
 import 'package:eden_app_test/widgets/featured_button_widget.dart';
@@ -36,6 +37,7 @@ class OnboardingViewState extends StateMVC<OnboardingView> {
     return WillPopScope(
       onWillPop: null,
       child: Scaffold(
+        backgroundColor: AppColors.scaffoldBgColor(),
         key: con.scaffoldKey,
         body: Column(
           children: [
