@@ -1,3 +1,4 @@
+import 'package:eden_app_test/controllers/ably_controller.dart';
 import 'package:eden_app_test/controllers/orders_controller.dart';
 import 'package:eden_app_test/utils/app_colors.dart';
 import 'package:eden_app_test/utils/constants.dart';
@@ -6,6 +7,7 @@ import 'package:eden_app_test/widgets/basic_container_widget.dart';
 import 'package:eden_app_test/widgets/timeline_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
+import 'package:provider/provider.dart';
 
 class OrderDetailsView extends StatefulWidget {
   const OrderDetailsView({Key? key}) : super(key: key);
@@ -86,7 +88,7 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
                   timelineWidget(context,
                       isFirst: false,
                       isLast: false,
-                      isPast: true,
+                      isPast: Provider.of<AblyTracker>(context, listen: true).percent >= 0.2 ? true : false,
                       eventCard: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -111,7 +113,7 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
                   timelineWidget(context,
                       isFirst: false,
                       isLast: false,
-                      isPast: true,
+                      isPast: Provider.of<AblyTracker>(context, listen: true).percent >= 0.4 ? true : false,
                       eventCard: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -137,7 +139,7 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
                     context,
                     isFirst: false,
                     isLast: false,
-                    isPast: true,
+                    isPast: Provider.of<AblyTracker>(context, listen: true).percent >= 0.6 ? true : false,
                     eventCard: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -164,7 +166,7 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
                     context,
                     isFirst: false,
                     isLast: false,
-                    isPast: true,
+                    isPast: Provider.of<AblyTracker>(context, listen: true).percent >= 0.8 ? true : false,
                     eventCard: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -191,7 +193,7 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
                     context,
                     isFirst: false,
                     isLast: true,
-                    isPast: true,
+                    isPast: Provider.of<AblyTracker>(context, listen: true).percent >= 1.0 ? true : false,
                     eventCard: const Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
