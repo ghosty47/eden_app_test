@@ -1,7 +1,9 @@
+import 'package:eden_app_test/controllers/ably_controller.dart';
 import 'package:eden_app_test/utils/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:ably_flutter/ably_flutter.dart' as ably;
+import 'package:provider/provider.dart';
 
 class OrdersController extends ControllerMVC {
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -10,10 +12,8 @@ class OrdersController extends ControllerMVC {
 
   bool processing = true;
   OverlayEntry? loader;
-  double percent = 0.1;
-  String orderText = 'Your order has been placed';
 
-  void mockStatusUpdates() async {
+  void mockStatusUpdates(BuildContext context) async {
     final channel = realtime.channels.get('testing salary');
 
     try {
@@ -21,49 +21,24 @@ class OrdersController extends ControllerMVC {
       await channel.publish(message: ably.Message(name: 'eden'), name: kOrderPlaced);
       await Future.delayed(const Duration(seconds: 10));
       await channel.publish(message: ably.Message(name: 'eden'), name: kOrderAccepted).then(
-            (value) => setState(
-              () {
-                percent += 0.2;
-                orderText = 'Order accepted';
-              },
-            ),
+            (value) => context.read<AblyTracker>().syncUpdate(0.2, 'Order accepted')
           );
       await Future.delayed(const Duration(seconds: 10));
       await channel.publish(message: ably.Message(name: 'eden'), name: kOrderPickUP).then(
-            (value) => setState(
-              () {
-                percent += 0.2;
-                orderText = 'Order pickup is in progress';
-              },
-            ),
-          );
+              (value) => context.read<AblyTracker>().syncUpdate(0.2, 'Order pickup is in progress')
+      );
       await Future.delayed(const Duration(seconds: 10));
       await channel.publish(message: ably.Message(name: 'eden'), name: kOrderOnTransit).then(
-            (value) => setState(
-              () {
-                percent += 0.1;
-                orderText = 'Your order is on the way';
-              },
-            ),
-          );
+              (value) => context.read<AblyTracker>().syncUpdate(0.2, 'Your order is on the way')
+      );
       await Future.delayed(const Duration(seconds: 10));
       await channel.publish(message: ably.Message(name: 'eden'), name: kOrderArrived).then(
-            (value) => setState(
-              () {
-                percent += 0.2;
-                orderText = 'Your order has arrived';
-              },
-            ),
-          );
+              (value) => context.read<AblyTracker>().syncUpdate(0.2, 'Your order has arrived')
+      );;
       await Future.delayed(const Duration(seconds: 10));
       await channel.publish(message: ably.Message(name: 'eden'), name: kOrderDelivered).then(
-            (value) => setState(
-              () {
-                percent += 0.2;
-                orderText = 'Order delivered';
-              },
-            ),
-          );
+              (value) => context.read<AblyTracker>().syncUpdate(0.2, 'Order delivered')
+      );;
     } catch (e) {
       print('Error publishing status update: $e');
     }

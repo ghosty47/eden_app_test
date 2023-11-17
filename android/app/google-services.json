@@ -12,7 +12,12 @@
           "package_name": "com.example.eden_app_test"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "619898274645-3hol5unmp8g7sml2rvb0ovoovnac0gp7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCvjMfCz9kHtQp-5uWCBJSF3ImM8tWiTbI"
@@ -20,7 +25,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "619898274645-3hol5unmp8g7sml2rvb0ovoovnac0gp7.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "619898274645-o76f0kgnvfq2d4fvarj2oq5vqvu7g65t.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.edenAppTest"
+              }
+            }
+          ]
         }
       }
     }

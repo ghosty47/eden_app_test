@@ -3,6 +3,7 @@ import 'package:eden_app_test/utils/app_colors.dart';
 import 'package:eden_app_test/utils/base.dart';
 import 'package:eden_app_test/views/orders/orders.dart';
 import 'package:eden_app_test/widgets/featured_button_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
@@ -24,13 +25,20 @@ class OnboardingViewState extends StateMVC<OnboardingView> {
 
   late AuthController con;
 
-  // @override
-  // void initState() {
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     con.initialize(context);
-  //   });
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    con.auth.authStateChanges().listen((User? event) {
+      if (event != null) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => OrdersView(user: event),
+          ),
+        );
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +66,7 @@ class OnboardingViewState extends StateMVC<OnboardingView> {
                 text: "Sign in with Google",
                 btnColor: Colors.black,
                 btnTextColor: Colors.white,
-                onPressed: () => pushNewScreen(context, screen: const OrdersView(), withNavBar: false),
+                onPressed: () => con.signInWithGoogle(context),
                 icon: const FaIcon(
                   FontAwesomeIcons.google,
                   size: 15,

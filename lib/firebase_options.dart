@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '619898274645',
     projectId: 'eden-test-f44a1',
     storageBucket: 'eden-test-f44a1.appspot.com',
+    iosClientId: '619898274645-o76f0kgnvfq2d4fvarj2oq5vqvu7g65t.apps.googleusercontent.com',
     iosBundleId: 'com.example.edenAppTest',
   );
 }

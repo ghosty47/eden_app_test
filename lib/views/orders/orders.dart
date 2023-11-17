@@ -1,3 +1,5 @@
+import 'package:eden_app_test/controllers/ably_controller.dart';
+import 'package:eden_app_test/controllers/auth_controller.dart';
 import 'package:eden_app_test/controllers/orders_controller.dart';
 import 'package:eden_app_test/utils/app_colors.dart';
 import 'package:eden_app_test/utils/app_styles.dart';
@@ -8,13 +10,16 @@ import 'package:eden_app_test/widgets/basic_container_widget.dart';
 import 'package:eden_app_test/widgets/cart_widget.dart';
 import 'package:eden_app_test/widgets/featured_button_widget.dart';
 import 'package:eden_app_test/widgets/order_name_widget.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
+import 'package:provider/provider.dart';
 
 class OrdersView extends StatefulWidget {
-  const OrdersView({Key? key}) : super(key: key);
+  final User user;
+  const OrdersView({Key? key, required this.user}) : super(key: key);
 
   @override
   OrdersViewState createState() => OrdersViewState();
@@ -27,21 +32,12 @@ class OrdersViewState extends StateMVC<OrdersView> {
 
   late OrdersController con;
 
-  // void logAblyEvent() async {
-  //   // Access a channel where you want to log the event
-  //   final channel = realtime.channels.get('testing salary');
-  //   try {
-  //     await channel.publish(message: ably.Message(name: 'eden'), name: 'edensss');
-  //     print('Event logged successfully.');
-  //   } catch (e) {
-  //     print('Error logging event: $e');
-  //   }
-  // }
+  AuthController authController = AuthController();
 
   @override
   void initState() {
     con.realtime.connect();
-    con.mockStatusUpdates();
+    con.mockStatusUpdates(context);
 
     super.initState();
   }
@@ -84,13 +80,13 @@ class OrdersViewState extends StateMVC<OrdersView> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(con.orderText),
+                        child: Text(context.watch<AblyTracker>().orderText),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 7, top: 20, bottom: 25, right: 7),
                         child: LinearPercentIndicator(
                           lineHeight: 8,
-                          percent: con.percent,
+                          percent: context.watch<AblyTracker>().percent,
                           progressColor: AppColors.mainBgColor(),
                           animation: true,
                           animationDuration: 1000,
@@ -132,7 +128,7 @@ class OrdersViewState extends StateMVC<OrdersView> {
                 ),
                 orderNameWidget(
                   context,
-                  name: 'Samuel Usoroh',
+                  name: '${widget.user.email}',
                   orderId: 'Order ID',
                   orderIdValue: '#123457',
                   orderDate: 'Order Date',

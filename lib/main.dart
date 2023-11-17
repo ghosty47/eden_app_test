@@ -1,10 +1,14 @@
+import 'package:eden_app_test/controllers/ably_controller.dart';
+import 'package:eden_app_test/firebase_options.dart';
 import 'package:eden_app_test/routes.dart';
 import 'package:eden_app_test/services/navigation_service.dart';
 import 'package:eden_app_test/utils/constants.dart';
 import 'package:eden_app_test/views/onboarding/splash_screen.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:provider/provider.dart';
 
 // void main() {
 //   runApp(const MyApp());
@@ -18,7 +22,7 @@ Future<void> main() async {
   } else {
     await dotenv.load(fileName: ".env");
   }
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
@@ -26,10 +30,14 @@ Future<void> main() async {
   ]);
 
   SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
-  WidgetsFlutterBinding.ensureInitialized();
 
   runApp(
-    const MyApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<AblyTracker>(create: (_) => AblyTracker()),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 

@@ -23,8 +23,8 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
 
   @override
   void initState() {
-    con.realtime.connect();
-    con.mockStatusUpdates();
+    // con.realtime.connect();
+    // con.mockStatusUpdates();
 
     super.initState();
   }
@@ -51,21 +51,59 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: SingleChildScrollView(
             child: basicContainer(
+              margin: const EdgeInsets.only(bottom: 30, top: 20),
               color: AppColors.cardColor(),
               context: context,
               child: Column(
                 children: [
+                  timelineWidget(
+                    context,
+                    isFirst: true,
+                    isLast: false,
+                    isPast: true,
+                    eventCard: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            kOrderPlaced,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 6),
+                            child: Text(
+                              'Waiting for the vendor to accept your order',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   timelineWidget(context,
-                      isFirst: true,
+                      isFirst: false,
                       isLast: false,
                       isPast: true,
                       eventCard: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Flexible(child: Text(kOrderPlaced)),
                           Flexible(
                             child: Text(
-                              'Waiting for the vendor to accept your order',
+                              kOrderAccepted,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Text(
+                                'The vendor is preparing your order',
+                              ),
                             ),
                           ),
                         ],
@@ -79,35 +117,103 @@ class OrderDetailsViewState extends StateMVC<OrderDetailsView> {
                         children: [
                           Flexible(
                             child: Text(
-                              kOrderPlaced,
+                              kOrderPickUP,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                           Flexible(
-                            child: Text(
-                              'Waiting for the vendor to accept your order',
+                            child: Padding(
+                              padding: EdgeInsets.only(top: 6),
+                              child: Text(
+                                'A rider is on his way pickup your order',
+                              ),
                             ),
                           ),
                         ],
                       )),
-                  timelineWidget(context,
-                      isFirst: false,
-                      isLast: true,
-                      isPast: false,
-                      eventCard: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Flexible(
-                            child: Text(
-                              kOrderPlaced,
+                  timelineWidget(
+                    context,
+                    isFirst: false,
+                    isLast: false,
+                    isPast: true,
+                    eventCard: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            kOrderOnTransit,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Flexible(
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 6),
                             child: Text(
-                              'Waiting for the vendor to accept your order',
+                              'The rider has picked up your order',
                             ),
                           ),
-                        ],
-                      )),
+                        ),
+                      ],
+                    ),
+                  ),
+                  timelineWidget(
+                    context,
+                    isFirst: false,
+                    isLast: false,
+                    isPast: true,
+                    eventCard: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            kOrderArrived,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 6),
+                            child: Text(
+                              "Don't keep the rider waiting!",
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  timelineWidget(
+                    context,
+                    isFirst: false,
+                    isLast: true,
+                    isPast: true,
+                    eventCard: const Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Flexible(
+                          child: Text(
+                            kOrderDelivered,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                        Flexible(
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 6),
+                            child: Text(
+                              'Enjoy !',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             ),
