@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "619898274645",
+    "project_id": "eden-test-f44a1",
+    "storage_bucket": "eden-test-f44a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:619898274645:android:1c7ae2082204c0e8e725dc",
+        "android_client_info": {
+          "package_name": "com.example.eden_app_test"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCvjMfCz9kHtQp-5uWCBJSF3ImM8tWiTbI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

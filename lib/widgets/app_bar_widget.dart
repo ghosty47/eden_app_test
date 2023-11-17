@@ -46,7 +46,7 @@ class AppBarWidget extends StatelessWidget implements PreferredSizeWidget {
         elevation: 0.0,
         leading: automaticallyImplyLeading
             ? BackButton(
-                color: Theme.of(context).appBarTheme.backgroundColor!.withOpacity(0.8),
+                color: Colors.black,
                 onPressed: onBack,
               )
             : null,

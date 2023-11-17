@@ -21,6 +21,8 @@ dependencies:
   percent_indicator: ^4.2.3
   ably_flutter: ^1.2.23
   cached_network_image: ^3.2.1
+  firebase_core: ^2.22.0
+  firebase_auth: ^4.14.0
 
 
 dev_dependencies:

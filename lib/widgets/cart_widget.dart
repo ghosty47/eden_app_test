@@ -29,7 +29,7 @@ Widget orderWidget(BuildContext context, Orders f) {
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w300,
-              color: Colors.blue,
+              color: Colors.black,
             ),
           ),
           trailing: Text(

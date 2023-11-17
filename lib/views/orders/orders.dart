@@ -2,6 +2,7 @@ import 'package:eden_app_test/controllers/orders_controller.dart';
 import 'package:eden_app_test/utils/app_colors.dart';
 import 'package:eden_app_test/utils/app_styles.dart';
 import 'package:eden_app_test/utils/orders_data.dart';
+import 'package:eden_app_test/views/orders/orders_list.dart';
 import 'package:eden_app_test/widgets/app_bar_widget.dart';
 import 'package:eden_app_test/widgets/basic_container_widget.dart';
 import 'package:eden_app_test/widgets/cart_widget.dart';
@@ -10,7 +11,7 @@ import 'package:eden_app_test/widgets/order_name_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:mvc_pattern/mvc_pattern.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
-import 'package:ably_flutter/ably_flutter.dart' as ably;
+import 'package:persistent_bottom_nav_bar_v2/persistent-tab-view.dart';
 
 class OrdersView extends StatefulWidget {
   const OrdersView({Key? key}) : super(key: key);
@@ -26,65 +27,21 @@ class OrdersViewState extends StateMVC<OrdersView> {
 
   late OrdersController con;
 
-  final clientOptions = ably.ClientOptions(key: 'ARq01A.1VYTtw:luCFDqbQU2IJDfa0Fy4wPPo-gRaBriUSolY9_16f0VI');
-  ably.Realtime realtime = ably.Realtime(options: ably.ClientOptions(key: 'ARq01A.1VYTtw:luCFDqbQU2IJDfa0Fy4wPPo-gRaBriUSolY9_16f0VI'));
-
-  void logAblyEvent() async {
-    // Access a channel where you want to log the event
-    final channel = realtime.channels.get('testing salary');
-    try {
-      await channel.publish(message: ably.Message(name: 'eden'), name: 'edensss');
-      print('Event logged successfully.');
-    } catch (e) {
-      print('Error logging event: $e');
-    }
-  }
-
-  void mockStatusUpdates() async {
-    final channel = realtime.channels.get('testing salary');
-
-    try {
-      await Future.delayed(Duration(seconds: 10));
-      await channel.publish(message: ably.Message(name: 'eden'), name: 'order placed').then(
-            (value) => setState(
-              () {
-                con.percent += 0.2;
-              },
-            ),
-          );
-      await Future.delayed(Duration(seconds: 10));
-      await channel.publish(message: ably.Message(name: 'eden'), name: 'order in progress').then(
-            (value) => setState(
-              () {
-                con.percent += 0.2;
-              },
-            ),
-          );
-      await Future.delayed(Duration(seconds: 10));
-      await channel.publish(message: ably.Message(name: 'eden'), name: 'order picked').then(
-            (value) => setState(
-              () {
-                con.percent += 0.2;
-              },
-            ),
-          );
-      await Future.delayed(Duration(seconds: 10));
-      await channel.publish(message: ably.Message(name: 'eden'), name: 'order delivered').then(
-            (value) => setState(
-              () {
-                con.percent += 0.2;
-              },
-            ),
-          );
-    } catch (e) {
-      print('Error publishing status update: $e');
-    }
-  }
+  // void logAblyEvent() async {
+  //   // Access a channel where you want to log the event
+  //   final channel = realtime.channels.get('testing salary');
+  //   try {
+  //     await channel.publish(message: ably.Message(name: 'eden'), name: 'edensss');
+  //     print('Event logged successfully.');
+  //   } catch (e) {
+  //     print('Error logging event: $e');
+  //   }
+  // }
 
   @override
   void initState() {
-    realtime.connect();
-    mockStatusUpdates();
+    con.realtime.connect();
+    con.mockStatusUpdates();
 
     super.initState();
   }
@@ -125,11 +82,9 @@ class OrdersViewState extends StateMVC<OrdersView> {
                           style: AppTextStyles.boldFont15,
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text(
-                          'Your order has been placed',
-                        ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
+                        child: Text(con.orderText),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 7, top: 20, bottom: 25, right: 7),
@@ -152,14 +107,11 @@ class OrdersViewState extends StateMVC<OrdersView> {
                               context,
                               text: 'Track order',
                               btnColor: AppColors.mainBgColor().withOpacity(0.7),
-                              onPressed: () => {
-                                logAblyEvent(),
-                                // realtime.connection.on().listen((ably.AblyEventMessage message) async {
-                                //   if (message.message == ably.ConnectionEvent.connected) {
-                                //     // await subscriptionToBeCancelled.cancel()
-                                //   }
-                                // }),
-                              },
+                              onPressed: () => pushNewScreen(
+                                context,
+                                screen: const OrderDetailsView(),
+                                withNavBar: false,
+                              ),
                               btnTextColor: Colors.white,
                               height: 32,
                             ),
@@ -190,21 +142,28 @@ class OrdersViewState extends StateMVC<OrdersView> {
                   paymentMethod: 'Payment Method',
                   paymentMethodValue: 'Bank Transfer',
                 ),
-                basicContainer(
-                  color: AppColors.cardColor(),
-                  context: context,
-                  child: Column(
-                    children: [
-                      const Text(
-                        'Cart items',
-                        style: AppTextStyles.boldFont16,
-                      ),
-                      Column(
-                        children: orders.map((order) {
-                          return orderWidget(context, order);
-                        }).toList(),
-                      ),
-                    ],
+                Padding(
+                  padding: const EdgeInsets.only(top: 25, bottom: 25),
+                  child: basicContainer(
+                    color: AppColors.cardColor(),
+                    context: context,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20, left: 15, bottom: 20),
+                          child: Text(
+                            'Cart items',
+                            style: AppTextStyles.boldFont18,
+                          ),
+                        ),
+                        Column(
+                          children: orders.map((order) {
+                            return orderWidget(context, order);
+                          }).toList(),
+                        ),
+                      ],
+                    ),
                   ),
                 )
               ],
