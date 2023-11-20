@@ -14,7 +14,7 @@ class OrdersController extends ControllerMVC {
   OverlayEntry? loader;
 
   void mockStatusUpdates(BuildContext context) async {
-    final channel = realtime.channels.get('testing salary');
+    final channel = realtime.channels.get('testing');
 
     try {
       await Future.delayed(const Duration(seconds: 10));
