@@ -1,3 +1,5 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 const Env env = Env.kDev;
 
 enum Env {
@@ -12,6 +14,8 @@ const kBaseUrl = <Env, String>{
 
 bool kDebugMode = env == Env.kDev;
 const kCurrencyNGNSymbol = "₦";
+
+var kAblyApiKey = dotenv.env['ABLY_API_KEY'];
 
 //Orders
 const kOrderPlaced = 'ORDER PLACED';

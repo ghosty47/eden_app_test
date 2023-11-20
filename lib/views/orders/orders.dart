@@ -111,6 +111,14 @@ class OrdersViewState extends StateMVC<OrdersView> {
                               btnTextColor: Colors.white,
                               height: 32,
                             ),
+                            featuredNewBtn(
+                              context,
+                              text: 'Logout',
+                              btnColor: AppColors.mainBgColor().withOpacity(0.7),
+                              onPressed: () => authController.signOut(context),
+                              btnTextColor: Colors.white,
+                              height: 32,
+                            ),
                             TextButton(
                               onPressed: () {},
                               child: const Text(
